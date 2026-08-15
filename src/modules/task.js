@@ -1,18 +1,14 @@
-/* Todo task features: Title, description, due date, priority, notes, checklist,
-*/
 export default class Task {
-  constructor(title, description, completed, dueDate, priority, notes, checkList) {
+  constructor(title, description, completed, dueDate, priority) {
     this.title = title;
     this.description = description;
     this.completed = completed;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.notes = notes;
-    this.checkList = checkList;
   }
 
-  completeTask() {
-    this.completed = true;
+  changeCompletion(bool) {
+    this.completed = bool;
   }
 
   changePriority(priorityValue) {
