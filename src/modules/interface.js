@@ -1,49 +1,174 @@
 import Task from "./task.js";
 import Project from "./project.js";
+import { format } from "date-fns";
 
 const content = document.querySelector(".content");
-const title = document.querySelector("#title");
-const desc = document.querySelector("#desc");
+const sidebar = document.querySelector(".sidebar");
+
+const taskTitle = document.querySelector("#taskTitle");
+const taskDesc = document.querySelector("#taskDesc");
 const completed = document.querySelector("#completed");
 const dueDate = document.querySelector("#dueDate");
-const priority = document.querySelector("#priority");
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const taskPriority = document.querySelector("#taskPriority");
 
-export default function createTask() {
-  const task = new Task(title.value, desc.value, completed.checked, dueDate.value, priority.value);
+const projectTitle = document.querySelector("#projectTitle");
+const projectPriority = document.querySelector("#projectPriority");
 
+export function createTask(currentTask = "") {
   const container = document.createElement("div");
+  const taskPriorityDiv = document.createElement("div");
   const checkbox = document.createElement("input");
   const taskDate = document.createElement("div");
   const taskTitleDiv = document.createElement("div");
-  const taskTitle = document.createElement("h2")
+  const taskTitleH2 = document.createElement("h2")
+  const taskDescDiv = document.createElement("div");
   const removeBtn = document.createElement("button");
 
   container.classList.add("task");
+  taskPriorityDiv.classList.add("taskPriority");
   checkbox.setAttribute("type", "checkbox");
   checkbox.classList.add("checkbox");
-  taskTitleDiv.classList.add("task-title");
-  removeBtn.classList.add("remove-button");
+  taskTitleDiv.classList.add("taskTitle");
+  taskDescDiv.classList.add("taskDesc");
+  removeBtn.classList.add("removeButton");
 
-  const dateArr = dueDate.value.split("-");
+  if (currentTask == "") {
+    var task = new Task(taskTitle.value, taskDesc.value, completed.checked, dueDate.value, taskPriority.value);
 
-  if(dateArr[0] == new Date().getFullYear()) {
-    taskDate.textContent = months[dateArr[1] - 1] + " " + dateArr[2];
+    if (dueDate.value != "") {
+      var dateStrWithoutYear = dueDate.value.split("-").join(", ");
+      dateStrWithoutYear = format(new Date(dateStrWithoutYear), "MMM d");
+
+      var dateStrWithYear = dueDate.value.split("-").join(", ");
+      dateStrWithYear = format(new Date(dateStrWithYear), "MMM d yyyy");
+
+      var dateArr = dueDate.value.split("-");
+    }
+
+    taskPriorityDiv.classList.add(`priority${taskPriority.value}`);
+    taskTitleH2.classList.add(`titlePriority${taskPriority.value}`);
+
+    checkbox.checked = completed.checked;
+    taskTitleH2.textContent = taskTitle.value;
+    taskDescDiv.textContent = taskDesc.value;
+
+    taskTitle.value = "";
+    taskDesc.value = "";
+    dueDate.value = "";
+    completed.checked = false;
+    taskPriority.value = "";
+
+    checkbox.addEventListener("click", () => {
+      task.changeCompletion(checkbox.checked);
+    });
+  } else {
+    if (currentTask.dueDate != "") {
+      var dateStrWithoutYear = currentTask.dueDate.split("-").join(", ");
+      dateStrWithoutYear = format(new Date(dateStrWithoutYear), "MMM d");
+
+      var dateStrWithYear = currentTask.dueDate.split("-").join(", ");
+      dateStrWithYear = format(new Date(dateStrWithYear), "MMM d yyyy");
+
+      var dateArr = currentTask.dueDate.split("-");
+    }
+
+    taskPriorityDiv.classList.add(`priority${currentTask.priority}`);
+    taskTitleH2.classList.add(`titlePriority${currentTask.priority}`);
+
+    checkbox.checked = currentTask.completed;
+    taskTitleH2.textContent = currentTask.title;
+    taskDescDiv.textContent = currentTask.description;
+
+    checkbox.addEventListener("click", () => {
+      currentTask.changeCompletion(checkbox.checked);
+    });
   }
 
-  checkbox.checked = completed.checked;
-  taskTitle.textContent = title.value;
+  if (dateArr != undefined) {
+    if (dateArr[0] == new Date().getFullYear()) {
+      taskDate.textContent = dateStrWithoutYear;
+    } else {
+      taskDate.textContent = dateStrWithYear;
+    }
+  }
 
-  taskTitleDiv.appendChild(taskTitle);
+  taskTitleDiv.appendChild(taskTitleH2);
 
+  container.appendChild(taskPriorityDiv);
   container.appendChild(checkbox);
   container.appendChild(taskDate);
   container.appendChild(taskTitleDiv);
+  container.appendChild(taskDescDiv);
   container.appendChild(removeBtn);
 
   content.appendChild(container);
 
-  checkbox.addEventListener("click", () => {
-    task.changeCompletion(checkbox.checked);
-  })
+  removeBtn.addEventListener("click", () => {
+    content.removeChild(container);
+  });
+
+  return task;
+}
+
+export function createProject() {
+  const project = new Project(projectTitle.value);
+
+  const projectBtn = document.createElement("button");
+  const projectPriorityDiv = document.createElement("div");
+  const projectTitleDiv = document.createElement("div");
+
+  projectBtn.classList.add("projectBtn");
+  projectPriorityDiv.classList.add(`priority${projectPriority.value}`);
+  projectTitleDiv.classList.add(`titlePriority${projectPriority.value}`);
+
+  projectTitleDiv.textContent = projectTitle.value;
+
+  if (projectPriority.value != undefined) {
+    projectBtn.appendChild(projectPriorityDiv);
+  }
+
+  projectBtn.appendChild(projectTitleDiv);
+
+  sidebar.appendChild(projectBtn);
+
+  projectBtn.addEventListener("click", () => { 
+    content.textContent = "";
+
+    Project.setActiveProject(project);
+    
+    project.tasks.forEach((currentTask) => {
+      createTask(currentTask);
+    });
+  });
+
+  projectTitle.value = "";
+  projectPriority.value = "";
+}
+
+export function loadDefaultProject() {
+  const defaultProject = new Project("Default");
+  Project.setActiveProject(defaultProject);
+
+  const projectBtn = document.createElement("button");
+  const projectTitleDiv = document.createElement("div");
+  const fillerDiv = document.createElement("div");
+
+  projectBtn.classList.add("projectBtn");
+
+  projectTitleDiv.textContent = "Default";
+
+  projectBtn.appendChild(fillerDiv);
+  projectBtn.appendChild(projectTitleDiv);
+
+  sidebar.appendChild(projectBtn);
+
+  projectBtn.addEventListener("click", () => { 
+    content.textContent = "";
+
+    Project.setActiveProject(defaultProject);
+    
+    defaultProject.tasks.forEach((currentTask) => {
+      createTask(currentTask);
+    });
+  });
 }

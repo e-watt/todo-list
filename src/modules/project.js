@@ -1,15 +1,21 @@
-export let projectArr = [];
+let currentProject = "";
 
 export default class Project {
-  constructor(title, description) {
+  constructor(title, priority) {
     this.title = title;
-    this.description = description;
-    this.tasks = {};
-    
-    projectArr.push(this);
+    this.priority = priority;
+    this.tasks = [];
   }
 
   addTask(task) {
-    this.tasks[task.title] = task;
+    this.tasks.push(task);
+  }
+
+  static setActiveProject(activeProject) {
+    currentProject = activeProject;
+  }
+
+  static getActiveProject() {
+    return currentProject;
   }
 }

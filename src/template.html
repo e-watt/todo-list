@@ -6,44 +6,79 @@
     <title>Todo list</title>
   </head>
   <body>
-    <button command="show-modal" commandfor="task-dialog">Add task</button>
+    <aside class="sidebar">
+      <h2>Projects</h2>
+      <button command="show-modal" commandfor="projectDialog"></button>
+    </aside>
+    
+    <dialog id="taskDialog">
+      <form id="taskForm" action="#">
+        <div class="taskDialogTitle">
+          <h3>Create Task</h3>
+        </div>
+        <div class="dialogRow">
+          <div class="inputItem">
+            <label for="taskTitle">Title *</label>
+            <input type="text" id="taskTitle" required>
+          </div>
 
-    <dialog id="task-dialog">
-      <div class="dialogRow">
-        <div class="inputItem">
-          <label for="title">Title</label>
-          <input type="text" id="title">
+          <div class="inputItem">
+            <label for="taskDesc">Description</label>
+            <input type="text" id="taskDesc">
+          </div>
         </div>
 
-        <div class="inputItem">
-          <label for="desc">Description</label>
-          <input type="text" id="desc">
-        </div>
-      </div>
+        <div class="dialogRow">
+          <div class="inputItem">
+            <label for="taskPriority">Priority(1-4)</label>
+            <input type="number" id="taskPriority" min="1" max="4" value="1">
+          </div>
 
-      <div class="dialogRow">
-        <div class="inputItem">
-          <label for="completed">Completed</label>
-          <input type="checkbox" id="completed">
+          <div class="inputItem">
+            <label for="dueDate">Due Date</label>
+            <input type="date" id="dueDate">
+          </div>
         </div>
 
-        <div class="inputItem">
-          <label for="dueDate">Due Date</label>
-          <input type="date" id="dueDate">
+        <div class="dialogRow">
+          <div class="inputItem">
+            <label for="completed">Completed</label>
+            <input type="checkbox" id="completed">
+          </div>
         </div>
-      </div>
 
-      <div class="dialogRow">
-        <div class="inputItem">
-          <label for="priority">Priority(0-4)</label>
-          <input type="number" id="priority">
-        </div>
-      </div>
+        <button commandfor="taskDialog" command="close" type="submit" class="createTaskBtn"></button>
+      </form>
 
-      <button commandfor="task-dialog" command="close">Close</button>
-      <button commandfor="task-dialog" command="close" class="createTaskBtn">Create task</button>
+      <button commandfor="taskDialog" command="close" class="close"></button>
     </dialog>
 
-    <div class="content"></div>
+    <dialog id="projectDialog">
+      <form id="projectForm" action="#">
+        <div class="projectDialogTitle">
+          <h3>Create Project</h3>
+        </div>
+          <div class="inputItem">
+            <label for="projectTitle">Title *</label>
+            <input type="text" id="projectTitle" required>
+          </div>
+
+          <div class="inputItem">
+            <label for="projectPriority">Priority(1-4)</label>
+            <input type="text" id="projectPriority" min="1" max="4" value="1">
+          </div>
+
+        <button commandfor="projectDialog" command="close" type="submit" class="createProjectBtn"></button>
+      </form>
+
+      <button commandfor="projectDialog" command="close" class="close"></button>
+    </dialog>
+
+    <div class="content">
+    </div>
+
+    <div class="bottom">
+      <button class="addTask" command="show-modal" commandfor="taskDialog"></button>
+    </div>
   </body>
 </html>
