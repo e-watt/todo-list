@@ -263,6 +263,17 @@ body {
   position: relative;
 }
 
+.contentTitle {
+  display: flex;
+  align-items: center;
+}
+
+.contentTitle h2 {
+  font-size: 2rem;
+
+  margin-left: 50px;
+}
+
 .content .task {
   margin: 12px;
   padding: 30px;

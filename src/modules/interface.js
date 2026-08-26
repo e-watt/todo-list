@@ -122,9 +122,12 @@ export function createProject(currentProject = "") {
   const projectPriorityDiv = document.createElement("div");
   const projectTitleDiv = document.createElement("div");
   const projectRemoveBtn = document.createElement("button");
+  const contentTitleDiv = document.createElement("div");
+  const contentTitleH2 = document.createElement("h2");
 
   projectRemoveBtn.classList.add("removeButton");
   projectBtn.classList.add("projectButton");
+  contentTitleDiv.classList.add("contentTitle");
 
   if (currentProject == "") {
     var project = new Project(projectTitle.value, projectPriority.value);
@@ -133,6 +136,8 @@ export function createProject(currentProject = "") {
 
     projectPriorityDiv.classList.add(`priority${projectPriority.value}`);
     projectTitleDiv.classList.add(`titlePriority${projectPriority.value}`);
+    
+    contentTitleDiv.classList.add(`titlePriority${projectPriority.value}`);
 
     projectTitleDiv.textContent = projectTitle.value;
 
@@ -148,6 +153,8 @@ export function createProject(currentProject = "") {
     projectPriorityDiv.classList.add(`priority${currentProject.priority}`);
     projectTitleDiv.classList.add(`titlePriority${currentProject.priority}`);
 
+    contentTitleDiv.classList.add(`titlePriority${currentProject.priority}`);
+
     projectTitleDiv.textContent = currentProject.title;
 
     if (currentProject.priority != undefined) {
@@ -160,12 +167,17 @@ export function createProject(currentProject = "") {
 
   sidebar.appendChild(projectBtn);
 
+  contentTitleH2.textContent = projectTitleDiv.textContent;
+
+  contentTitleDiv.appendChild(contentTitleH2);
+
   projectBtn.addEventListener("click", (event) => {
     if (event.target == projectRemoveBtn) {
       return undefined;
     }
 
     content.textContent = "";
+    content.appendChild(contentTitleDiv);
 
     if (project == undefined) {
       Project.setActiveProject(currentProject);
