@@ -1,9 +1,10 @@
+import "./style.css";
 import Task from "./modules/task.js";
 import Project from "./modules/project.js";
-import { createTask, createProject, loadDefaultProject } from "./modules/interface.js";
-import "./style.css";
+import { createTask, createProject } from "./modules/interface.js";
+import { loadLocalStorage } from"./modules/storage.js";
 
-loadDefaultProject();
+loadLocalStorage();
 
 const projectDialog = document.querySelector("#projectDialog");
 const taskDialog = document.querySelector("#taskDialog");
@@ -13,9 +14,8 @@ createTaskBtn.addEventListener("click", (event) => {
 if (taskTitle.value != "") {
     event.preventDefault();
     taskDialog.close();
-    
-    const task = createTask();
-    Project.getActiveProject().addTask(task);
+
+    createTask();
   }
 });
 
