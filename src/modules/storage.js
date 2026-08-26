@@ -2,7 +2,7 @@ import Project from "./project.js";
 import { createProject } from "./interface.js";
 
 if(!localStorage.getItem("projectObj")) {
-  localStorage.setItem("projectObj", JSON.stringify({}));
+  localStorage.setItem("projectObj", JSON.stringify({ }));
 }
 
 let projectObj = JSON.parse(localStorage.getItem("projectObj"));

@@ -131,8 +131,8 @@ dialog button[class="close"]:hover {
   background-color: var(--light-gray);
 }
 
-dialog button[class="createProjectBtn"],
-dialog button[class="createTaskBtn"] {
+dialog button[class="createProjectButton"],
+dialog button[class="createTaskButton"] {
   position: absolute;
   left: 30px;
   bottom: 18px;
@@ -144,13 +144,13 @@ dialog button[class="createTaskBtn"] {
   padding: 8px 12px;
 }
 
-dialog button[class="createProjectBtn"]::before,
-dialog button[class="createTaskBtn"]::before {
+dialog button[class="createProjectButton"]::before,
+dialog button[class="createTaskButton"]::before {
   content: "Create";
 }
 
-dialog button[class="createProjectBtn"]:hover,
-dialog button[class="createTaskBtn"]:hover {
+dialog button[class="createProjectButton"]:hover,
+dialog button[class="createTaskButton"]:hover {
   background-color: var(--gray);
 }
 
@@ -223,7 +223,7 @@ body {
   color: black;
 }
 
-.sidebar button[class="projectBtn"] {
+.sidebar button[class="projectButton"] {
   border: none;
   border-radius: 10px;
   
@@ -239,7 +239,7 @@ body {
   grid-template-columns: 20px 1fr;
 }
 
-.sidebar button[class="projectBtn"]:hover {
+.sidebar button[class="projectButton"]:hover {
   background-color: var(--light-gray);
 }
 
@@ -338,7 +338,7 @@ body {
   background-color: var(--lighter-gray);
 }
 
-.bottom .addTask {
+.bottom button[commandfor="taskDialog"] {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -355,10 +355,10 @@ body {
   color: var(--gray);
 }
 
-.bottom .addTask:before {
+.bottom button[commandfor="taskDialog"]:before {
   content: "+"
 }
 
-.bottom .addTask:hover {
+.bottom button[commandfor="taskDialog"]:hover {
   color: black;
 }

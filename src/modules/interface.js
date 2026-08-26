@@ -24,15 +24,15 @@ export function createTask(currentTask = "") {
     const taskTitleDiv = document.createElement("div");
     const taskTitleH2 = document.createElement("h2")
     const taskDescDiv = document.createElement("div");
-    const removeBtn = document.createElement("button");
+    const taskRemoveBtn = document.createElement("button");
 
     container.classList.add("task");
     taskPriorityDiv.classList.add("taskPriority");
     checkbox.setAttribute("type", "checkbox");
     checkbox.classList.add("checkbox");
     taskTitleDiv.classList.add("taskTitle");
-    taskDescDiv.classList.add("taskDesc");
-    removeBtn.classList.add("removeButton");
+    taskDescDiv.classList.add("taskDescription");
+    taskRemoveBtn.classList.add("removeButton");
 
     if (currentTask == "") {
       var task = new Task(taskTitle.value, taskDesc.value, completed.checked, dueDate.value, taskPriority.value);
@@ -105,11 +105,11 @@ export function createTask(currentTask = "") {
     container.appendChild(taskDate);
     container.appendChild(taskTitleDiv);
     container.appendChild(taskDescDiv);
-    container.appendChild(removeBtn);
+    container.appendChild(taskRemoveBtn);
 
     content.appendChild(container);
 
-    removeBtn.addEventListener("click", () => {
+    taskRemoveBtn.addEventListener("click", () => {
       content.removeChild(container);
     });
 
@@ -122,7 +122,7 @@ export function createProject(currentProject = "") {
   const projectPriorityDiv = document.createElement("div");
   const projectTitleDiv = document.createElement("div");
 
-  projectBtn.classList.add("projectBtn");
+  projectBtn.classList.add("projectButton");
 
   if (currentProject == "") {
     var project = new Project(projectTitle.value, projectPriority.value);
@@ -157,8 +157,9 @@ export function createProject(currentProject = "") {
 
   sidebar.appendChild(projectBtn);
 
-  projectBtn.addEventListener("click", () => { 
+  projectBtn.addEventListener("click", (event) => { 
     content.textContent = "";
+    console.log(event.target);
 
     if (project == undefined) {
     Project.setActiveProject(currentProject);

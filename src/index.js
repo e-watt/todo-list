@@ -9,7 +9,7 @@ loadLocalStorage();
 const projectDialog = document.querySelector("#projectDialog");
 const taskDialog = document.querySelector("#taskDialog");
 
-const createTaskBtn = document.querySelector(".createTaskBtn");
+const createTaskBtn = document.querySelector(".createTaskButton");
 createTaskBtn.addEventListener("click", (event) => {
 if (taskTitle.value != "") {
     event.preventDefault();
@@ -19,8 +19,8 @@ if (taskTitle.value != "") {
   }
 });
 
-const createProjectButton = document.querySelector(".createProjectBtn");
-createProjectButton.addEventListener("click", (event) => {
+const createProjectBtn = document.querySelector(".createProjectButton");
+createProjectBtn.addEventListener("click", (event) => {
   if (projectTitle.value != "") {
     event.preventDefault();
     projectDialog.close();
