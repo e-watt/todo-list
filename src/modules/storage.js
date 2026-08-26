@@ -19,6 +19,12 @@ export function storeProject(project) {
   localStorage.setItem("projectObj", JSON.stringify(projectObj));
 }
 
+export function removeProject(project) {
+  delete projectObj[project.unique];
+
+  localStorage.setItem("projectObj", JSON.stringify(projectObj));
+}
+
 export function loadLocalStorage() {
   for (let [key, value] of Object.entries(JSON.parse(localStorage.getItem("projectObj")))) {
     createProject(value);

@@ -236,12 +236,25 @@ body {
   text-align: left;
 
   display: grid;
-  grid-template-columns: 20px 1fr;
+  grid-template-columns: 20px 1fr 20px;
 }
 
 .sidebar button[class="projectButton"]:hover {
   background-color: var(--light-gray);
+
+  & > button{
+  background-color: var(--light-gray);
+  }
 }
+
+.sidebar .removeButton {
+  background-color: var(--lighter-gray);
+}
+
+.sidebar .removeButton:hover {
+  background-color: var(--light-gray);
+}
+
 
 .content {
   display: grid;
@@ -265,7 +278,7 @@ body {
   position: relative
 }
 
-.task .removeButton {
+.removeButton {
   border: none;
 
   background-color: var(--light-gray);
@@ -274,7 +287,7 @@ body {
   right: 30px;
 }
 
-.task .removeButton:before {
+.removeButton:before {
   content: "\2715";
 }
 

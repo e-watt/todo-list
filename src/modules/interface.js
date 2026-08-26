@@ -1,6 +1,6 @@
 import Task from "./task.js";
 import Project from "./project.js";
-import { storeTask, storeProject } from "./storage.js";
+import { storeTask, storeProject, removeProject } from "./storage.js";
 import { format } from "date-fns";
 
 const content = document.querySelector(".content");
@@ -16,7 +16,7 @@ const projectTitle = document.querySelector("#projectTitle");
 const projectPriority = document.querySelector("#projectPriority");
 
 export function createTask(currentTask = "") {
-  if(Project.getActiveProject() != ""){
+  if (Project.getActiveProject() != "") {
     const container = document.createElement("div");
     const taskPriorityDiv = document.createElement("div");
     const checkbox = document.createElement("input");
@@ -121,7 +121,9 @@ export function createProject(currentProject = "") {
   const projectBtn = document.createElement("button");
   const projectPriorityDiv = document.createElement("div");
   const projectTitleDiv = document.createElement("div");
+  const projectRemoveBtn = document.createElement("button");
 
+  projectRemoveBtn.classList.add("removeButton");
   projectBtn.classList.add("projectButton");
 
   if (currentProject == "") {
@@ -154,15 +156,19 @@ export function createProject(currentProject = "") {
   }
 
   projectBtn.appendChild(projectTitleDiv);
+  projectBtn.appendChild(projectRemoveBtn);
 
   sidebar.appendChild(projectBtn);
 
-  projectBtn.addEventListener("click", (event) => { 
+  projectBtn.addEventListener("click", (event) => {
+    if (event.target == projectRemoveBtn) {
+      return undefined;
+    }
+
     content.textContent = "";
-    console.log(event.target);
 
     if (project == undefined) {
-    Project.setActiveProject(currentProject);
+      Project.setActiveProject(currentProject);
     } else {
       Project.setActiveProject(project);
     }
@@ -170,5 +176,20 @@ export function createProject(currentProject = "") {
     Project.getActiveProject().tasks.forEach((currentTask) => {
       createTask(currentTask);
     });
+  });
+
+  projectRemoveBtn.addEventListener("click", () => {
+    sidebar.removeChild(projectBtn);
+
+    if (project == undefined) {
+      removeProject(currentProject);
+    } else {
+      removeProject(project);
+    }
+
+    if(Project.getActiveProject() == project ||
+      Project.getActiveProject() == currentProject)
+    content.textContent = "";
+    Project.setActiveProject("");
   });
 }
